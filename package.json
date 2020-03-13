@@ -1,5 +1,5 @@
 {
-  "name": "node-template",
+  "name": "kiracli",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@gitlab.com:Nbsaw/node-template.git",
@@ -10,7 +10,10 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "commander": "^2.19.0"
+    "cli-spinner": "^0.2.10",
+    "commander": "^2.19.0",
+    "enquirer": "^2.3.4",
+    "lemuro": "^2.0.0"
   },
   "devDependencies": {
     "jest": "^23.6.0"
