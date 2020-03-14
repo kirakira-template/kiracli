@@ -7,11 +7,20 @@ const { Input } = require("enquirer");
 
 const _tmpFolder = `./kira_template`;
 const _kiraConfig = `${_tmpFolder}/kiraconfig.json`;
-
-program.version(`${name}/${version}`).parse(process.argv);
+const _output = "./";
+const _branch = "master";
 
 let message = "";
 let successs = true;
+
+program
+  .version(`${name}/${version}`)
+  .option("-o, --output <path>", "down load template to where", _output)
+  .option("-t, --target <git>", "git url")
+  .option("-b, --branch <git-branch>", "which branch to be download", _branch)
+  .parse(process.argv);
+
+const args = program.opts();
 
 async function main() {
   // clear if `_tmpFolder` exists
@@ -24,7 +33,7 @@ async function main() {
     "--depth",
     "1",
     "-b",
-    "js-cli",
+    args.branch || _branch,
     `./${_tmpFolder}`
   ]);
 
@@ -55,7 +64,7 @@ async function main() {
 
 async function inject() {
   // check config file
-  if (lemuro.isExists(_kiraConfig)) {
+  if (await lemuro.isExists(_kiraConfig)) {
     console.log("🎈 Let's do some questions");
     const buffer = await lemuro.readFile(_kiraConfig);
     const content = await buffer.toString();
@@ -81,12 +90,24 @@ async function inject() {
 
       await lemuro.rmrf(targetPath);
       await lemuro.writeFile(targetPath, targetContent);
-
-      await lemuro.deleteExists(`${_tmpFolder}/.git`);
     }
+  } else {
+    console.log("😯  not kiraconfig");
   }
+
+  await lemuro.deleteExists(`${_tmpFolder}/.git`);
+  await lemuro.moveFiles(_tmpFolder, args.output || _output);
 
   console.log(message);
 }
 
-main();
+function isGitUrl(url) {
+  const regex = /(?:git|ssh|https?|git@[-\w.]+):(\/\/)?(.*?)(\.git)(\/?|\#[-\d\w._]+?)$/;
+  return regex.test(url);
+}
+
+if (isGitUrl(args.target) === false) {
+  console.log("😖 Pls input a right git url");
+} else {
+  main();
+}
