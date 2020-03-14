@@ -2,7 +2,31 @@
 
 kiracli goal is to clone the template project under your project in the easiest way.
 
+## Install
+
+Read the follow to know how to install kiracli
+
+### npx
+
+```
+npx kiracli
+```
+
+### npm
+
+```
+npm install kiracli -g
+```
+
+### yarn
+
+```
+yarn global add kiracli
+```
+
 ## Usage
+
+Read the follow to know how to use kiracli
 
 ```
 Usage: kiracli [options]
