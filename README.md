@@ -80,7 +80,7 @@ when you using kiracli download template will show this question and auto replac
 
 ### preview
 
-
+<img width="697" alt="Screen Shot 2020-03-14 at 5 54 03 PM" src="https://user-images.githubusercontent.com/12481935/76679600-df518300-661c-11ea-953d-4f032b3c4b11.png">
 
 ## License
 
