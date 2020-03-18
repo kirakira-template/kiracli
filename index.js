@@ -17,7 +17,7 @@ program
   .version(`${name}/${version}`)
   .option("-o, --output <path>", "down load template to where", _output)
   .option("-t, --target <git>", "git url")
-  .option("-b, --branch <git-branch>", "which branch to be download", _branch)
+  .option("-b, --branch <branch>", "which branch to be download", _branch)
   .parse(process.argv);
 
 const args = program.opts();
@@ -29,16 +29,18 @@ async function main() {
   // execute git command
   const git = spawn("git", [
     "clone",
-    "git@github.com:kirakira-template/node-template.git",
+    args.target,
     "--depth",
     "1",
     "-b",
-    args.branch || _branch,
+    args.branch ? args.branch : _branch,
     `./${_tmpFolder}`
   ]);
 
   const spinner = new Spinner("📦  Now we are downloading template %s");
   // spinner.setSpinnerString(" ⠐⠄ ⢀ ⠁ ");
+
+  console.log(args.branch, _branch);
 
   git.stderr.on("data", data => {
     const text = data.toString();
@@ -48,7 +50,13 @@ async function main() {
       message = "🐈  Project now is downloaded in ur folder ~";
       successs = true;
     } else {
-      message = `🙅‍♂️  ${text}`;
+      if (text.indexOf("warning: Could not find remote branch") > -1) {
+        message = `🔎 Could not find remote branch of ${
+          args.branch ? args.branch : _branch
+        }`;
+      } else {
+        message = `🙅‍♂️  ${text}`;
+      }
       successs = false;
     }
   });
@@ -58,7 +66,7 @@ async function main() {
     spinner.stop();
     console.log();
 
-    successs && (await inject());
+    successs ? await inject() : console.log(message);
   });
 }
 
