@@ -2,7 +2,7 @@
   "name": "kiracli",
   "version": "1.0.3",
   "main": "index.js",
-  "repository": "git@gitlab.com:Nbsaw/node-template.git",
+  "repository": "git@github.com:kirakira-template/node-template.git",
   "author": "nbsaw <nbsawz@gmail.com>",
   "license": "MIT",
   "bin": {
