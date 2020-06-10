@@ -68,8 +68,8 @@ kiracli using `K{question_key}` statement to replace question's answer.
     "packageName": {
       "message": "What is your package name?"
     },
-    "packageVerson": {
-      "message": "What is your package verion?",
+    "packageVersion": {
+      "message": "What is your package version?",
       "initial": "1.0.0" // default value can be ignore
     }
   }
